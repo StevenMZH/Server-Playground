@@ -1,0 +1,52 @@
+project_name: testings
+project_vars:
+  server_name: .env.server
+  repository_name: Server-Playground
+  repository_url: https://github.com/StevenMZH/Server-Playground.git
+paths:
+  .env.dev: .env.dev
+  .env.prod: .env.prod
+  .gitignore: .gitignore
+  docker-compose.yml: docker-compose.yml
+  hermes.yml: hermes.yml
+workspaces:
+  backend:
+    package: django-rest
+    modules:
+    - init
+    - postgres
+    - user_auth
+    paths:
+      .env.dev: .env.dev
+      .env.prod: .env.prod
+      .gitignore: .gitignore
+      .dockerignore: .dockerignore
+      dockerfile: dockerfile
+      requirements.txt: requirements.txt
+      settings.py: '{{workspace_name}}\settings.py'
+      urls.py: '{{workspace_name}}\urls.py'
+      user_auth.models.py: user_auth\models.py
+      user_auth.serializers.py: user_auth\serializers.py
+      user_auth.urls.py: user_auth\urls.py
+      user_auth.views.py: user_auth\views.py
+  frontend:
+    package: react-spa
+    modules:
+    - init
+    - auth
+    paths:
+      main.jsx: src\main.jsx
+      index.css: src\index.css
+      App.jsx: src\App.jsx
+      App.css: src\App.css
+      Landing.jsx: src\pages\Landing.jsx
+      Card.jsx: src\components\Card.jsx
+      Grid.jsx: src\components\Grid.jsx
+      ThemeSwitch.jsx: src\components\ThemeSwitch.jsx
+      normalize.css: src\styles\normalize.css
+      themes.css: src\styles\themes.css
+      MainLayout.jsx: src\layouts\MainLayout.jsx
+      AppProvider.jsx: src\AppProvider.jsx
+      logo.svg: public\logo.svg
+      default.jpg: public\default.jpg
+      workspace_backend: backend

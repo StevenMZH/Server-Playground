@@ -1,0 +1,12 @@
+servers:
+	{{server_name}}:
+        server_name: {{server_name}}
+        server_credentials: .env.{{server_name}}
+        env: .env.prod
+
+        apps:
+            {{repository_name}}:
+                repository: {{repository_url}}
+                branch: main
+                env: .env.prod
+                services: docker-compose.yml
