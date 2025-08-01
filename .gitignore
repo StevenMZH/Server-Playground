@@ -28,7 +28,7 @@ celerybeat-schedule
 *.pem
 *.key
 *.crt
-*.env
+# *.env
 secrets/
 
 # Hermes
