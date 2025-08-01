@@ -33,7 +33,7 @@
     --text-main: hsl(0 0 5%);
     --text-sec: hsl(0 0 30%);
 
-    --highlight1: hsl(243, 68%, 48%);
+    --highlight1: hsl(0, 57%, 34%);
     --highlight2: hsl(247, 18%, 15%); 
     --text-highlight: hsl(0 0 95%); 
   }
@@ -64,7 +64,7 @@ body.light {
   --text-main: hsl(0 0 5%);
   --text-sec: hsl(0 0 30%);
 
-  --highlight1: hsl(243, 68%, 48%);
+  --highlight1: hsl(0, 57%, 34%);
   --highlight2: hsl(247, 18%, 15%); 
   --text-highlight: hsl(0 0 95%); 
 }
