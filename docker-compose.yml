@@ -28,14 +28,14 @@ services:
       - ./nginx/vhost.d:/etc/nginx/vhost.d
       - ./nginx/html:/usr/share/nginx/html
       - ./nginx/conf.d:/etc/nginx/conf.d
-
+      
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     container_name: frontend
     expose:
       - "80"
-    volumes:
-      - ./nginx/www/frontend:/usr/share/nginx/html:ro
     environment:
       VIRTUAL_HOST: testings.chepetronica.online
       LETSENCRYPT_HOST: testings.chepetronica.online
@@ -43,6 +43,7 @@ services:
     depends_on:
       - backend
     restart: always
+
 
   backend:
     build: ./backend
