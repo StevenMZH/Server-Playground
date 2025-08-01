@@ -1,51 +1,67 @@
 
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/certs:/etc/nginx/certs:ro
-      - ./nginx/vhost.d:/etc/nginx/vhost.d
-      - ./nginx/html:/usr/share/nginx/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    restart: always
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy
+  #   container_name: nginx-proxy
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./nginx/certs:/etc/nginx/certs:ro
+  #     - ./nginx/vhost.d:/etc/nginx/vhost.d
+  #     - ./nginx/html:/usr/share/nginx/html
+  #     - ./nginx/conf.d:/etc/nginx/conf.d
+  #   restart: always
 
-  nginx-proxy-acme:
-    image: nginxproxy/acme-companion
-    container_name: nginx-proxy-acme
-    depends_on:
-      - nginx-proxy
-    environment:
-      DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./nginx/certs:/etc/nginx/certs
-      - ./nginx/vhost.d:/etc/nginx/vhost.d
-      - ./nginx/html:/usr/share/nginx/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    restart: always
+  # nginx-proxy-acme:
+  #   image: nginxproxy/acme-companion
+  #   container_name: nginx-proxy-acme
+  #   depends_on:
+  #     - nginx-proxy
+  #   environment:
+  #     DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./nginx/certs:/etc/nginx/certs
+  #     - ./nginx/vhost.d:/etc/nginx/vhost.d
+  #     - ./nginx/html:/usr/share/nginx/html
+  #     - ./nginx/conf.d:/etc/nginx/conf.d
+  #   restart: always
+
+  # frontend:
+  #   build: ./frontend
+  #   container_name: frontend
+  #   environment:
+  #     VIRTUAL_HOST: ${VIRTUAL_HOST}
+  #     LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+  #     LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+  #   expose:
+  #     - "80"
+  #   volumes:
+  #     - ./nginx/www/frontend:/usr/share/nginx/html:ro
+  #   restart: always
+  #   depends_on:
+  #     - backend
 
   frontend:
     build: ./frontend
     container_name: frontend
-    environment:
-      VIRTUAL_HOST: ${VIRTUAL_HOST}
-      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-    expose:
-      - "80"
     volumes:
-      - ./nginx/www/frontend:/usr/share/nginx/html:ro
-    restart: always
+      - ./nginx/www/frontend:/build   
     depends_on:
       - backend
-    networks:
-      - nginx-proxy
+    restart: on-failure
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/www/frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - frontend
 
   backend:
     build: ./backend
@@ -70,8 +86,3 @@ services:
 
 volumes:
   postgres_data:
-
-
-networks:
-  nginx-proxy:
-    external: true
