@@ -25,21 +25,20 @@ services:
     restart: always  
 
 
-    frontend:
-      build: ./frontend
-      container_name: frontend
-      volumes:
-        - ./nginx/www/frontend:/build   
-      command: ""  
-      depends_on:
-        - {{workspace_backend}}
-      restart: on-failure
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    volumes:
+      - ./nginx/www/frontend:/build   
+    command: ""  
+    depends_on:
+      - backend
+    restart: on-failure
 
 # </services>
 
 # <volumes>
 volumes:
-
   postgres_data:
 
 # </volumes>

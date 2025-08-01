@@ -1,21 +1,18 @@
-project_name: testings
-project_vars:
-  server_name: .env.server
-  repository_name: Server-Playground
-  repository_url: https://github.com/StevenMZH/Server-Playground.git
-paths:
-  .env.dev: .env.dev
-  .env.prod: .env.prod
-  .gitignore: .gitignore
-  docker-compose.yml: docker-compose.yml
-  hermes.yml: hermes.yml
 workspaces:
+  nginx:
+    package: nginx
+    modules:
+    - init
+    - https
+    paths:
+      nginx.conf: etc\nginx\nginx.conf
+      myproject.conf: etc\nginx\sites-available\myproject.conf
   backend:
     package: django-rest
     modules:
     - init
+    - nginx
     - postgres
-    - user_auth
     paths:
       .env.dev: .env.dev
       .env.prod: .env.prod
@@ -33,7 +30,7 @@ workspaces:
     package: react-spa
     modules:
     - init
-    - auth
+    - nginx
     paths:
       main.jsx: src\main.jsx
       index.css: src\index.css

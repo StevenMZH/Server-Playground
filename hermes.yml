@@ -1,12 +1,14 @@
 servers:
-	{{server_name}}:
-        server_name: {{server_name}}
-        server_credentials: .env.{{server_name}}
-        env: .env.prod
+  smooth-server:
+    server_name: smooth-server
+    server_credentials: .env.a
+    env: .env.dev
 
-        apps:
-            {{repository_name}}:
-                repository: {{repository_url}}
-                branch: main
-                env: .env.prod
-                services: docker-compose.yml
+    # apps    
+    apps:
+      Server-Playground:
+        app_name: Server-Playground 
+        repository: https://github.com/StevenMZH/Server-Playground.git
+        branch: main
+        env: .env.dev
+        services: "docker-compose.yml"
