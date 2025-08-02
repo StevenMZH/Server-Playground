@@ -8,7 +8,7 @@ environ.Env.read_env(BASE_DIR / '.env.dev')
 
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+ALLOWED_HOSTS = [host.strip() for host in env.list('ALLOWED_HOSTS', default=[])]
 
 INSTALLED_APPS = [
 # <INSTALLED_APPS>
