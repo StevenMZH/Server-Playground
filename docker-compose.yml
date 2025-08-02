@@ -13,6 +13,9 @@ services:
       - ./nginx/vhost.d:/etc/nginx/vhost.d
       - ./nginx/html:/usr/share/nginx/html
       - ./nginx/conf.d:/etc/nginx/conf.d
+    labels:
+      com.github.nginx-proxy.nginx: "true"
+
 
   nginx-proxy-acme:
     image: nginxproxy/acme-companion
@@ -20,8 +23,6 @@ services:
     depends_on:
       - nginx-proxy
     restart: always
-    labels:
-      com.github.nginx-proxy.nginx: "true"
     environment:
       DEFAULT_EMAIL: smendozasymzh@gmail.com
       NGINX_PROXY_CONTAINER: nginx-proxy
