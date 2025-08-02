@@ -20,14 +20,18 @@ services:
     depends_on:
       - nginx-proxy
     restart: always
+    labels:
+      com.github.nginx-proxy.nginx: "true"
     environment:
       DEFAULT_EMAIL: smendozasymzh@gmail.com
+      NGINX_PROXY_CONTAINER: nginx-proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./nginx/certs:/etc/nginx/certs
       - ./nginx/vhost.d:/etc/nginx/vhost.d
       - ./nginx/html:/usr/share/nginx/html
       - ./nginx/conf.d:/etc/nginx/conf.d
+
       
   frontend:
     build:
